@@ -1,7 +1,7 @@
 import ContactForm from 'components/ContactForm';
 import ContactList from 'components/ContactList';
 
-export const ContactsView = () => {
+const ContactsView = () => {
   return (
     <div>
       <ContactForm />
@@ -9,3 +9,5 @@ export const ContactsView = () => {
     </div>
   );
 };
+
+export default ContactsView;
