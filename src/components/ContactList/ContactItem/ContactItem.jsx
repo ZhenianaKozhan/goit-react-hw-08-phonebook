@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Contact } from './ContactItem.styled';
 import { useDispatch } from 'react-redux';
 import Notiflix from 'notiflix';
-import { deleteContact } from 'redux/operation';
+import { deleteContact } from 'redux/contacts/contacts-operation';
 
 const ContactItem = ({ id, name, phone }) => {
   const dispatch = useDispatch();
@@ -24,9 +24,9 @@ const ContactItem = ({ id, name, phone }) => {
 };
 
 ContactItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  number: PropTypes.string,
 };
 
 export default ContactItem;
