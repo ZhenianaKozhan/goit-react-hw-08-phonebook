@@ -1,10 +1,17 @@
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const AuthNav = () => {
   return (
     <div>
-      <NavLink to="/register">Registration</NavLink>
-      <NavLink to="/login">Log In</NavLink>
+      <Link
+        to="/login"
+        style={{ color: 'white', textDecoration: 'none', marginRight: '10px' }}
+      >
+        Login
+      </Link>
+      <Link to="/register" style={{ color: 'white', textDecoration: 'none' }}>
+        SignUp
+      </Link>
     </div>
   );
 };

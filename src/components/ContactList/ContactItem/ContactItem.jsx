@@ -1,9 +1,9 @@
-import { Button } from 'components/ContactForm/ContactForm.styled';
 import PropTypes from 'prop-types';
-import { Contact } from './ContactItem.styled';
 import { useDispatch } from 'react-redux';
 import Notiflix from 'notiflix';
 import { deleteContact } from 'redux/contacts/contacts-operation';
+import { IconButton, ListItem, ListItemText } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ContactItem = ({ id, name, phone }) => {
   const dispatch = useDispatch();
@@ -14,12 +14,16 @@ const ContactItem = ({ id, name, phone }) => {
   };
 
   return (
-    <Contact id={id}>
-      {name}: {phone}{' '}
-      <Button type="button" onClick={handleDelete}>
-        Delete
-      </Button>
-    </Contact>
+    <ListItem
+      id={id}
+      secondaryAction={
+        <IconButton edge="end" aria-label="delete" onClick={handleDelete}>
+          <DeleteIcon />
+        </IconButton>
+      }
+    >
+      <ListItemText primary={`${name}: ${phone}`} />
+    </ListItem>
   );
 };
 

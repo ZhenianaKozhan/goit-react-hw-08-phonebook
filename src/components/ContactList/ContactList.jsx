@@ -13,16 +13,13 @@ const ContactList = () => {
   const visibleContacts = useSelector(selectVisibleContacts);
 
   return (
-    <>
-      <h2>Contacts</h2>
-      <ul>
-        {visibleContacts.length !== 0 && <Filter />}
-        {isLoading && !error && <b>Request in progress...</b>}
-        {visibleContacts.map(({ id, name, phone }) => (
-          <ContactItem key={id} id={id} name={name} phone={phone} />
-        ))}
-      </ul>
-    </>
+    <ul>
+      {visibleContacts.length !== 0 && <Filter />}
+      {isLoading && !error && <b>Request in progress...</b>}
+      {visibleContacts.map(({ id, name, number }) => (
+        <ContactItem key={id} id={id} name={name} phone={number} />
+      ))}
+    </ul>
   );
 };
 

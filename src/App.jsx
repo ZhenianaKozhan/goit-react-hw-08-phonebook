@@ -5,7 +5,6 @@ import { fetchCurrentUser } from 'redux/auth/auth-operations';
 import Layout from 'components/Layout';
 import PrivateRoute from 'components/PrivateRoute';
 import PublicRoute from 'components/PublicRoute/PublicRoute';
-import Loader from 'components/Loader';
 import { selectIsFetchingCurrentUser } from 'redux/auth/auth-selectors';
 
 const HomeView = lazy(() => import('./views/HomeView'));
@@ -22,24 +21,24 @@ export const App = () => {
   }, [dispatch]);
 
   return isFetchingCurrentUser ? (
-    <Loader />
+    <div>Loading...</div>
   ) : (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<HomeView />} />
         <Route
-          path="/register"
-          element={
-            <PublicRoute>
-              <RegisterView />
-            </PublicRoute>
-          }
-        />
-        <Route
           path="/login"
           element={
             <PublicRoute>
               <LoginView />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <RegisterView />
             </PublicRoute>
           }
         />

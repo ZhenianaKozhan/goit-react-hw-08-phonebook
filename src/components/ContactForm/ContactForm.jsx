@@ -1,63 +1,115 @@
-import { Formik } from 'formik';
-import { Button, FormStyled, Input } from './ContactForm.styled';
-import { useDispatch, useSelector } from 'react-redux';
+// import { Formik } from 'formik';
+// import { Button, FormStyled, Input } from './ContactForm.styled';
+import { useDispatch } from 'react-redux';
 import Notiflix from 'notiflix';
-import { selectContacts } from 'redux/contacts/contacts-selectors';
+// import { selectContacts } from 'redux/contacts/contacts-selectors';
 import { addContact } from 'redux/contacts/contacts-operation';
 import { nanoid } from '@reduxjs/toolkit';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import { useState } from 'react';
+import { DialogContentText, Fab } from '@mui/material';
+import { AddIcCallOutlined } from '@mui/icons-material';
 
-const inithialValue = {
-  name: '',
-  number: '',
-};
+// const inithialValue = {
+//   name: '',
+//   number: '',
+// };
 
 const ContactForm = () => {
-  const contactList = useSelector(selectContacts);
-
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({ name: '', number: '' });
+  // const contactList = useSelector(selectContacts);
   const dispatch = useDispatch();
 
-  const handleSubmit = (value, { resetForm }) => {
-    const existingContact = contactList.some(
-      contact => contact.number === value.number
-    );
-
-    if (existingContact) {
-      Notiflix.Notify.failure(
-        `Сontact with number ${value.number} is already in contacts`
-      );
-    } else {
-      dispatch(addContact({ ...value, id: nanoid() }));
-      Notiflix.Notify.success('Add contacts');
-    }
-
-    resetForm();
+  const handleOpen = () => {
+    setOpen(true);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = () => {
+    const data = { name: formData.name, number: formData.number };
+    dispatch(addContact({ ...data, id: nanoid() }));
+    Notiflix.Notify.success('Add contacts');
+    handleClose();
+  };
+
+  const handleInputChange = event => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+  // const handleSubmit = (value, { resetForm }) => {
+  //   const existingContact = contactList.some(
+  //     contact => contact.number === value.number
+  //   );
+
+  //   if (existingContact) {
+  //     Notiflix.Notify.failure(
+  //       `Сontact with number ${value.number} is already in contacts`
+  //     );
+  //   } else {
+  //     dispatch(addContact({ ...value, id: nanoid() }));
+  //     Notiflix.Notify.success('Add contacts');
+  //   }
+
+  //   resetForm();
+  // };
+
   return (
-    <>
-      <h1>Phonebook</h1>
-      <Formik initialValues={inithialValue} onSubmit={handleSubmit}>
-        <FormStyled>
-          <label htmlFor="name">Name</label>
-          <Input
-            type="text"
+    <div>
+      <Fab
+        color="primary"
+        aria-label="add"
+        onClick={handleOpen}
+        style={{ marginTop: '20px', marginLeft: '20px' }}
+      >
+        <AddIcCallOutlined />
+      </Fab>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Add contact</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter your name and phone number.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
             name="name"
-            // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            // title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
+            label="Name"
+            type="text"
+            fullWidth
+            onChange={handleInputChange}
           />
-          <label htmlFor="number">Number</label>
-          <Input
-            type="tel"
+          <TextField
+            margin="dense"
             name="number"
-            // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            // title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
+            label="Number"
+            type="text"
+            fullWidth
+            onChange={handleInputChange}
           />
-          <Button type="submit">Add contact</Button>
-        </FormStyled>
-      </Formik>
-    </>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} color="primary">
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 };
 

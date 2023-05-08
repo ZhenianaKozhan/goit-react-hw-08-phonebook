@@ -1,3 +1,4 @@
+import { Button, Chip } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from 'redux/auth/auth-operations';
 import { selectUserEmail } from 'redux/auth/auth-selectors';
@@ -8,10 +9,10 @@ const UserMenu = () => {
 
   return (
     <div>
-      <p>{userEmail}</p>
-      <button type="button" onClick={() => dispatch(logOut())}>
-        Log out
-      </button>
+      <Chip label={userEmail} style={{ marginRight: '10px', color: 'white' }} />
+      <Button variant="contained" onClick={() => dispatch(logOut())}>
+        Log Out
+      </Button>
     </div>
   );
 };
