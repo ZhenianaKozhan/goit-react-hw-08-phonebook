@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { register } from 'redux/auth/auth-operations';
 
 const RegisterView = () => {
@@ -59,6 +60,8 @@ const RegisterView = () => {
           onChange={handleChange}
           required
         />
+        <br />
+        <Link to="/login">Login</Link>
         <br />
         <button type="submit">Register</button>
       </form>

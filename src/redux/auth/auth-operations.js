@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { fetchContacts } from 'redux/contacts/contacts-operation';
 
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
@@ -14,10 +15,11 @@ const token = {
 
 export const register = createAsyncThunk(
   'auth/register',
-  async (credentials, { rejectWithValue }) => {
+  async (credentials, { rejectWithValue, dispatch }) => {
     try {
       const { data } = await axios.post('/users/signup', credentials);
       token.set(data.token);
+      dispatch(fetchContacts());
       return data;
     } catch (e) {
       return rejectWithValue(e.message);
@@ -27,10 +29,11 @@ export const register = createAsyncThunk(
 
 export const logIn = createAsyncThunk(
   'auth/login',
-  async (credentials, { rejectWithValue }) => {
+  async (credentials, { rejectWithValue, dispatch }) => {
     try {
       const { data } = await axios.post('/users/login', credentials);
       token.set(data.token);
+      dispatch(fetchContacts());
       return data;
     } catch (e) {
       return rejectWithValue(e.message);
